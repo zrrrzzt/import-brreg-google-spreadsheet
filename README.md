@@ -7,7 +7,7 @@ Visit Google Developers site to learn more about [Apps Script](https://developer
 ## Installation
 In your google apps spreadsheet open the "Tools" menu and select "Script editor".
 From the blank page select "Blank project". 
-Delete the prefilled code and copy everything from [brreg.gs]('/brreg.gs') into the editor.
+Delete the prefilled code and copy everything from [brreg.gs](brreg.gs) into the editor.
 Save the file and you are ready for action
 
 ## Usage
