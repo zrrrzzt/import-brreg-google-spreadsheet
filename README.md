@@ -16,10 +16,6 @@ The first time you run the script you will need to authorize it.
 Click the menu and select "Import from brreg".
 Enter "næringskode" in the first prompt and startdate in the next.
 
-## Limitations
-For the moment the script will only import the first 100 records from each category.
-This means it will be most useful for downloading the newest records from each category.
-
 ## About
 The script uses the open API from [The Central Coordinating Register for Legal Entities i Norway](https://confluence.brreg.no/display/DBNPUB/API).
 This API is a pilot and it might change in the near future.

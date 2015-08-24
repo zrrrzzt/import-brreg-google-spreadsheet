@@ -4,11 +4,24 @@
  * @customfunction
  **/
 
+var pageNum = -1;
+var batchSize = 100;
+
 function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu('BRREG')
     .addItem('Import from brreg', 'importSetup')
     .addToUi();
+}
+
+function gotNext(links){
+  var next = false;
+  links.forEach(function(item){
+    if(item.rel == 'next') {
+      next = true;
+    }
+  });
+  return next;
 }
 
 function addHeaders() {
@@ -21,6 +34,7 @@ function addHeaders() {
 }
 
 function importSetup() {
+  pageNum = -1;
   var sheet = SpreadsheetApp.getActive();
   var ui = SpreadsheetApp.getUi();
   var inputKode = ui.prompt(
@@ -43,11 +57,17 @@ function importSetup() {
 }
 
 function importBRREG(kode, startdato) {
-  var url = "http://data.brreg.no/enhetsregisteret/enhet.json?$filter=startswith(naeringskode1/kode, '" + kode + "')+and+registreringsdatoEnhetsregisteret+gt+datetime'" + startdato + "T00:00'";
+  pageNum++;
+  var url = "http://data.brreg.no/enhetsregisteret/enhet.json?page=" + pageNum + "&size=" + batchSize + "&$filter=startswith(naeringskode1/kode, '" + kode + "')+and+registreringsdatoEnhetsregisteret+gt+datetime'" + startdato + "T00:00'";
   var result = UrlFetchApp.fetch(url);
   var json = JSON.parse(result.getContentText());
   var data = flattenData(json.data);
+
   writeData(data);
+
+  if (gotNext(json.links)) {
+    importBRREG(kode, startdato);
+  }
 }
 
 function flattenData(list) {
